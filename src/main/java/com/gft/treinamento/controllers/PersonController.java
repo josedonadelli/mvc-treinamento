@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gft.treinamento.entities.Person;
@@ -18,10 +19,15 @@ public class PersonController {
 	
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView getPerson() {
+	public ModelAndView getPerson(@RequestParam Long id) {
 		ModelAndView mv = new ModelAndView("person.html");
-		Person person = personService.createPerson();
-		mv.addObject("person", person);
+		//Person person = personService.createPerson();
+		try {
+			Person person = personService.getPerson(id);
+			mv.addObject("person", person);
+		}catch(Exception e) {
+			mv.addObject("message", e.getMessage());
+		}
 		return mv;
 
 	}
@@ -36,7 +42,11 @@ public class PersonController {
 	@RequestMapping(method = RequestMethod.POST)
 	public ModelAndView newPerson(Person person) {
 		ModelAndView mv = new ModelAndView("person.html");
+		
+		person = personService.savePerson(person);
+		
 		mv.addObject("person", person);
+		
 		return mv;
 	}
 
