@@ -6,6 +6,7 @@
 </head>
 <body>
 	<form method="POST" th:action="@{/person}" th:object="${person}">
+	<input type="hidden" th:field="*{id}"></input>
 		Nome: <input type="text" th:field="*{nome}"></input><br><br>
 		Idade: <input type="text" th:field="*{age}"></input><br><br>
 		Status: <select th:field="*{status}">
